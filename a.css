@@ -1,0 +1,249 @@
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2&display=swap');
+
+/* Reset and base */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    font-family: 'Baloo 2', cursive, 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffcee7 0%, #f9a3c7 100%);
+    color: #4a2c51;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+/* Ribbon container */
+.ribbon-container {
+    width: 90vw;
+    max-width: 500px;
+    perspective: 1000px;
+}
+
+/* Ribbon base */
+.ribbon {
+    position: relative;
+    background: white;
+    height: 120px;
+    border-radius: 24px;
+    box-shadow: 0 8px 16px rgba(255 192 203 / 0.4), inset 0 0 12px #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
+    animation: pulseGlow 4s ease-in-out infinite;
+    will-change: transform, box-shadow;
+}
+
+/* Pulse glow animation for ribbon */
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 8px 16px rgba(255 192 203 / 0.4), inset 0 0 12px #fff;
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 12px 24px rgba(255 105 180 / 0.6), inset 0 0 20px #ffe6f0;
+        transform: scale(1.02);
+    }
+}
+
+/* Ribbon hover - subtle color and scale */
+.ribbon:hover:not(.pressed) {
+    box-shadow: 0 16px 32px rgba(255 105 180 / 0.75), inset 0 0 20px #ffd0e8;
+    transform: scale(1.04);
+}
+
+/* Ribbon side tail */
+.ribbon::before,
+.ribbon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 100px;
+    background: #ffe6ef;
+    border-radius: 24px;
+    box-shadow: 0 4px 8px rgba(255 192 203 / 0.25);
+    transform: translateY(-50%);
+    z-index: -1;
+    transition: background 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.5s ease;
+}
+.ribbon::before {
+    left: -60px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* Center ribbon text */
+.ribbon-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #e91e63;
+    user-select: none;
+    transition: color 0.4s ease;
+    z-index: 2;
+    text-shadow: 0 1px 2px #fff5f8;
+}
+
+/* Paper greeting card container */
+.paper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    width: 450px;
+    max-width: 90vw;
+    height: 280px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.15), inset 0 0 10px #ffcade;
+    padding: 32px 40px;
+    opacity: 0;
+    pointer-events: none;
+    color: #4a2c51;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    font-weight: 500;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 0.7s ease 0.2s, transform 0.7s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
+    transform: translateX(-50%) rotateY(90deg);
+}
+
+/* Animation text fade in for paragraphs */
+.paper.show p {
+    opacity: 0;
+    animation: fadeInText 1.2s ease forwards;
+}
+.paper.show p:nth-child(2) {
+    animation-delay: 0.3s;
+}
+.paper.show p:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes fadeInText {
+    to { opacity: 1;}
+}
+
+/* Paper visible state */
+.paper.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) rotate(0deg);
+}
+
+/* Ribbon pressed state - fade text and shrink tails */
+.ribbon.pressed {
+    animation: none;
+    color: #a91c60;
+}
+.ribbon.pressed .ribbon-text {
+    color: transparent;
+    transition: color 0.2s ease;
+}
+.ribbon.pressed::before,
+.ribbon.pressed::after {
+    background: #ffd6e8;
+    width: 40px;
+    height: 70px;
+    box-shadow: 0 2px 5px rgba(233, 30, 99, 0.5);
+}
+
+/* Paper heading */
+.paper h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #e91e63;
+    text-shadow: 0 1px 1px #ffbfd6;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeInHeading 1s ease forwards 0.1s;
+}
+
+@keyframes fadeInHeading {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive typography and sizing */
+@media (max-width: 640px) {
+    .ribbon {
+        height: 100px;
+    }
+    .ribbon::before,
+    .ribbon::after {
+        width: 40px;
+        height: 70px;
+    }
+    .ribbon-text {
+        font-size: 1.25rem;
+    }
+    .paper {
+        height: 240px;
+        padding: 24px 32px;
+        font-size: 1rem;
+    }
+    .paper h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Accessibility focus ring */
+.ribbon:focus-visible {
+    outline: 3px solid #f48fb1;
+    outline-offset: 4px;
+}
+
+/* Confetti container and shapes */
+.confetti-container {
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: visible;
+    z-index: 9999;
+}
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #e91e63;
+    opacity: 0.9;
+    border-radius: 2px;
+    transform-origin: center;
+    will-change: transform, opacity;
+    animation: confetti-fall linear forwards;
+}
+/* Varied color */
+.confetti:nth-child(2n) { background: #ff4081; }
+.confetti:nth-child(3n) { background: #f48fb1; }
+.confetti:nth-child(4n) { background: #ff80ab; }
+.confetti:nth-child(5n) { background: #f06292; }
+
+/* Confetti falling animation */
+@keyframes confetti-fall {
+    0% {
+        transform: translate3d(0, 0, 0) rotateZ(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(var(--x), 100vh, 0) rotateZ(var(--r));
+        opacity: 0;
+    }
+}
